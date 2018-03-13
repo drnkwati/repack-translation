@@ -29,7 +29,7 @@
     },
     "suggest": {
         "Illuminate/Support": "You must install Illuminate\\Support >=4.1. We avoid requiring in composer.json to provide developer flexibility.",
-        "drnkwati/repack-core": "You may install drnkwati\\repack-core as alternative to Illuminate\\Support."
+        "drnkwati/repack": "You may install drnkwati\\repack as alternative to Illuminate\\Support."
     },
     "config": {
         "preferred-install": "dist",
