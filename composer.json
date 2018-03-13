@@ -1,6 +1,6 @@
 {
     "name": "drnkwati/repack-translation",
-    "description": "Standalone Illuminate Translation Version 5.6 For PHP 5.3. Namespace (Illuminate\\Translation) has been maintained for maximum compatibility with other illuminate packages.",
+    "description": "Illuminate Translation Version 5.6 For PHP 5.3. Namespace (Illuminate\\Translation) has been maintained for maximum compatibility with other illuminate packages.",
     "license": "MIT",
     "homepage": "https://laravel.com",
     "authors": [
