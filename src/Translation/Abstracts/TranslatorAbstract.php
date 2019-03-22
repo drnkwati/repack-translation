@@ -1,6 +1,6 @@
 <?php
 
-namespace Closet\Translation\Abstracts;
+namespace Repack\Translation\Abstracts;
 
 use Closet\Translation\Aspects\LoaderAspect;
 use Closet\Translation\Compatible\NamespacedItemResolver;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Closet\Translation\Compatible;
+namespace Repack\Translation\Compatible;
 
 class NamespacedItemResolver extends Macroable
 {

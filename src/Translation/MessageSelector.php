@@ -1,6 +1,6 @@
 <?php
 
-namespace Closet\Translation;
+namespace Repack\Translation;
 
 class MessageSelector
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Closet\Translation\Aspects;
+namespace Repack\Translation\Aspects;
 
 if (interface_exists('\Illuminate\Contracts\Translation\Loader')) {
     interface LoaderAspect extends \Illuminate\Contracts\Translation\Loader

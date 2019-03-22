@@ -1,6 +1,6 @@
 <?php
 
-namespace Closet\Translation\Abstracts;
+namespace Repack\Translation\Abstracts;
 
 if (!interface_exists('\Illuminate\Contracts\Translation\Loader') &&
     class_exists('\Illuminate\Translation\ServiceProvider')) {
