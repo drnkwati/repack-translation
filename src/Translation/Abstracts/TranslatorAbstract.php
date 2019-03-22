@@ -2,9 +2,9 @@
 
 namespace Repack\Translation\Abstracts;
 
-use Closet\Translation\Aspects\LoaderAspect;
-use Closet\Translation\Compatible\NamespacedItemResolver;
 use Countable;
+use Repack\Translation\Aspects\LoaderAspect;
+use Repack\Translation\Compatible\NamespacedItemResolver;
 
 if (interface_exists('\Illuminate\Contracts\Translation\Loader')) {
     abstract class TranslatorAbstract extends \Illuminate\Translation\Translator
