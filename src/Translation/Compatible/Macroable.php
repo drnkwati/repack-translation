@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Compatible;
+namespace Closet\Translation\Compatible;
 
 use BadMethodCallException;
 use Closure;

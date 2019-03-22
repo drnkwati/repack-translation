@@ -1,13 +1,12 @@
 <?php
 
-namespace Illuminate\Translation;
-
-use Illuminate\Support\Str;
+namespace Closet\Translation;
 
 class MessageSelector
 {
     /**
      * Select a proper translation string based on the given number.
+     *
      * @param  string  $line
      * @param  int  $number
      * @param  string  $locale
@@ -25,7 +24,7 @@ class MessageSelector
 
         $pluralIndex = $this->getPluralIndex($locale, $number);
 
-        if (count($segments) == 1 || ! isset($segments[$pluralIndex])) {
+        if (count($segments) === 1 || ! isset($segments[$pluralIndex])) {
             return $segments[0];
         }
 
@@ -59,7 +58,7 @@ class MessageSelector
     {
         preg_match('/^[\{\[]([^\[\]\{\}]*)[\}\]](.*)/s', $part, $matches);
 
-        if (count($matches) != 3) {
+        if (count($matches) !== 3) {
             return;
         }
 
@@ -67,12 +66,12 @@ class MessageSelector
 
         $value = $matches[2];
 
-        if (Str::contains($condition, ',')) {
-            list($from, $to) = explode(',', $condition, 2);
+        if (static::contains($condition, ',')) {
+            array($from, $to) = explode(',', $condition, 2);
 
-            if ($to == '*' && $number >= $from) {
+            if ($to === '*' && $number >= $from) {
                 return $value;
-            } elseif ($from == '*' && $number <= $to) {
+            } elseif ($from === '*' && $number <= $to) {
                 return $value;
             } elseif ($number >= $from && $number <= $to) {
                 return $value;
@@ -90,9 +89,9 @@ class MessageSelector
      */
     private function stripConditions($segments)
     {
-        return collect($segments)->map(function ($part) {
+        return array_map(function ($part) {
             return preg_replace('/^[\{\[]([^\[\]\{\}]*)[\}\]]/', '', $part);
-        })->all();
+        }, $segments);
     }
 
     /**
@@ -408,4 +407,23 @@ class MessageSelector
                 return 0;
         }
     }
+
+    /**
+     * Determine if a given string contains a given substring.
+     *
+     * @param  string  $haystack
+     * @param  string|array  $needles
+     * @return bool
+     */
+    public static function contains($haystack, $needles)
+    {
+        foreach ((array) $needles as $needle) {
+            if ($needle !== '' && mb_strpos($haystack, $needle) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

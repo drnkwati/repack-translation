@@ -1,20 +1,11 @@
 <?php
 
-namespace Illuminate\Translation;
+namespace Closet\Translation;
 
-use Illuminate\Contracts\Loader;
-use Illuminate\Filesystem\Filesystem;
 use RuntimeException;
 
-class FileLoader implements Loader
+class FileLoader implements Aspects\LoaderAspect
 {
-    /**
-     * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $files;
-
     /**
      * The default path for the loader.
      *
@@ -25,7 +16,7 @@ class FileLoader implements Loader
     /**
      * All of the registered paths to JSON translation files.
      *
-     * @var string
+     * @var array
      */
     protected $jsonPaths = array();
 
@@ -39,14 +30,12 @@ class FileLoader implements Loader
     /**
      * Create a new file loader instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem $files
-     * @param  string                            $path
+     * @param  string  $path
      * @return void
      */
-    public function __construct(Filesystem $files, $path)
+    public function __construct($path)
     {
         $this->path = $path;
-        $this->files = $files;
     }
 
     /**
@@ -59,11 +48,11 @@ class FileLoader implements Loader
      */
     public function load($locale, $group, $namespace = null)
     {
-        if ($group == '*' && $namespace == '*') {
+        if ($group === '*' && $namespace === '*') {
             return $this->loadJsonPaths($locale);
         }
 
-        if (is_null($namespace) || $namespace == '*') {
+        if (is_null($namespace) || $namespace === '*') {
             return $this->loadPath($this->path, $locale, $group);
         }
 
@@ -92,7 +81,7 @@ class FileLoader implements Loader
     /**
      * Load a local namespaced translation group for overrides.
      *
-     * @param  array   $lines
+     * @param  array  $lines
      * @param  string  $locale
      * @param  string  $group
      * @param  string  $namespace
@@ -102,8 +91,8 @@ class FileLoader implements Loader
     {
         $file = "{$this->path}/vendor/{$namespace}/{$locale}/{$group}.php";
 
-        if ($this->files->exists($file)) {
-            return array_replace_recursive($lines, $this->files->getRequire($file));
+        if (file_exists($file)) {
+            return array_replace_recursive($lines, (require $file));
         }
 
         return $lines;
@@ -119,8 +108,8 @@ class FileLoader implements Loader
      */
     protected function loadPath($path, $locale, $group)
     {
-        if ($this->files->exists($full = "{$path}/{$locale}/{$group}.php")) {
-            return $this->files->getRequire($full);
+        if (file_exists($full = "{$path}/{$locale}/{$group}.php")) {
+            return (require $full);
         }
 
         return array();
@@ -129,18 +118,17 @@ class FileLoader implements Loader
     /**
      * Load a locale from the given JSON file path.
      *
-     * @param  string              $locale
-     * @throws \RuntimeException
+     * @param  string  $locale
      * @return array
+     *
+     * @throws \RuntimeException
      */
     protected function loadJsonPaths($locale)
     {
-        $files = $this->files;
-
         return collect(array_merge($this->jsonPaths, array($this->path)))
-            ->reduce(function ($output, $path) use ($locale, $files) {
-                if ($files->exists($full = "{$path}/{$locale}.json")) {
-                    $decoded = json_decode($files->get($full), true);
+            ->reduce(function ($output, $path) use ($locale) {
+                if (file_exists($full = "{$path}/{$locale}.json")) {
+                    $decoded = json_decode(file_get_contents($full), true);
 
                     if (is_null($decoded) || json_last_error() !== JSON_ERROR_NONE) {
                         throw new RuntimeException("Translation file [{$full}] contains an invalid JSON structure.");
@@ -156,8 +144,8 @@ class FileLoader implements Loader
     /**
      * Add a new namespace to the loader.
      *
-     * @param  string $namespace
-     * @param  string $hint
+     * @param  string  $namespace
+     * @param  string  $hint
      * @return void
      */
     public function addNamespace($namespace, $hint)
@@ -168,7 +156,7 @@ class FileLoader implements Loader
     /**
      * Add a new JSON path to the loader.
      *
-     * @param  string $path
+     * @param  string  $path
      * @return void
      */
     public function addJsonPath($path)

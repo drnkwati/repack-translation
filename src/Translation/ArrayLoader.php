@@ -1,13 +1,12 @@
 <?php
 
-namespace Illuminate\Translation;
+namespace Closet\Translation;
 
-use Illuminate\Contracts\Loader;
-
-class ArrayLoader implements Loader
+class ArrayLoader implements Aspects\LoaderAspect
 {
     /**
      * All of the translation messages.
+     *
      * @var array
      */
     protected $messages = array();

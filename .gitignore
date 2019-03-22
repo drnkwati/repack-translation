@@ -1,6 +1,11 @@
-/vendor
-/build
+phpunit.xml
 composer.phar
 composer.lock
-.DS_Store
-todo.md
+composer-test.lock
+vendor/
+build/artifacts/
+artifacts/
+docs/_build
+docs/*.pyc
+.idea
+.DS_STORE
