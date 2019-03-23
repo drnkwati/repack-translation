@@ -9,13 +9,13 @@ if (!function_exists('trans')) {
      * @param  string  $locale
      * @return Translator|string|array|null
      */
-    function trans($key = null, $replace = [], $locale = null)
+    function trans($key = null, $replace = array(), $locale = null)
     {
         if (is_null($key)) {
             return app('translator');
         }
 
-        return call_user_func_array([app('translator'), __FUNCTION__], func_get_args());
+        return call_user_func_array(array(app('translator'), __FUNCTION__), func_get_args());
     }
 }
 
@@ -29,9 +29,9 @@ if (!function_exists('trans_choice')) {
      * @param  string  $locale
      * @return string
      */
-    function transChoice($key, $number, array $replace = [], $locale = null)
+    function transChoice($key, $number, array $replace = array(), $locale = null)
     {
-        return call_user_func_array([app('translator'), __FUNCTION__], func_get_args());
+        return call_user_func_array(array(app('translator'), __FUNCTION__), func_get_args());
     }
 }
 
@@ -44,7 +44,7 @@ if (!function_exists('__')) {
      * @param  string  $locale
      * @return string|array|null
      */
-    function __($key, $replace = [], $locale = null)
+    function __($key, $replace = array(), $locale = null)
     {
         return app('translator')->getFromJson($key, $replace, $locale);
     }
@@ -61,7 +61,7 @@ if (!function_exists('transMatch')) {
      */
     function transMatch($values, $pattern = "|<[^>]+>(.*)</[^>]+>|U", array $replace = array(), $locale = null)
     {
-        return call_user_func_array([app('translator'), __FUNCTION__], func_get_args());
+        return call_user_func_array(array(app('translator'), __FUNCTION__), func_get_args());
     }
 }
 
@@ -76,7 +76,7 @@ if (!function_exists('transCall')) {
      */
     function transCall($values, $callback = null, array $replace = array(), $locale = null)
     {
-        return call_user_func_array([app('translator'), __FUNCTION__], func_get_args());
+        return call_user_func_array(array(app('translator'), __FUNCTION__), func_get_args());
     }
 }
 
@@ -90,7 +90,7 @@ if (!function_exists('transKeys')) {
      */
     function transKeys(array $values, array $replace = array(), $locale = null)
     {
-        return call_user_func_array([app('translator'), __FUNCTION__], func_get_args());
+        return call_user_func_array(array(app('translator'), __FUNCTION__), func_get_args());
     }
 }
 
@@ -104,6 +104,6 @@ if (!function_exists('transValues')) {
      */
     function transValues(array $values, array $replace = array(), $locale = null)
     {
-        return call_user_func_array([app('translator'), __FUNCTION__], func_get_args());
+        return call_user_func_array(array(app('translator'), __FUNCTION__), func_get_args());
     }
 }

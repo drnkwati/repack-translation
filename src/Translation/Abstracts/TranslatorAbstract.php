@@ -160,7 +160,7 @@ else {
 
             // $line = $this->loaded['*']['*'][$locale][$key] ?? null;
 
-            $line = !isset($this->loaded['*']['*'][$locale][$key]) ?: $this->loaded['*']['*'][$locale][$key];
+            $line = !isset($this->loaded['*']['*'][$locale][$key]) ? null : $this->loaded['*']['*'][$locale][$key];
 
             // If we can't find a translation for the JSON key, we will attempt to translate it
             // using the typical translation file. This way developers can always just use a
