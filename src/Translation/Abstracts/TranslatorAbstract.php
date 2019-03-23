@@ -244,7 +244,7 @@ else {
         {
             $this->load($namespace, $group, $locale);
 
-            $line = array_get($this->loaded[$namespace][$group][$locale], $item);
+            $line = static::arrayGet($this->loaded[$namespace][$group][$locale], $item);
 
             if (is_string($line)) {
                 return $this->makeReplacements($line, $replace);
@@ -319,7 +319,7 @@ else {
             foreach ($lines as $key => $value) {
                 list($group, $item) = explode('.', $key, 2);
 
-                array_set($this->loaded, "$namespace.$group.$locale.$item", $value);
+                static::arraySet($this->loaded, "$namespace.$group.$locale.$item", $value);
             }
         }
 
@@ -516,6 +516,66 @@ else {
         public static function ucfirst($string)
         {
             return mb_strtoupper(static::substr($string, 0, 1), 'UTF-8') . static::substr($string, 1);
+        }
+
+        /**
+         * Get an item from an array using "dot" notation.
+         *
+         * @param  array   $array
+         * @param  string  $key
+         * @param  mixed   $default
+         * @return mixed
+         */
+        public static function arrayGet(array $array, $key, $default = null)
+        {
+            if (isset($array[$key])) {
+                return $array[$key];
+            }
+
+            foreach (explode('.', $key) as $segment) {
+                if (!is_array($array) || !array_key_exists($segment, $array)) {
+                    return $default;
+                }
+
+                $array = $array[$segment];
+            }
+
+            return $array;
+        }
+        /**
+         * Set an array item to a given value using "dot" notation.
+         *
+         * If no key is given to the method, the entire array will be replaced.
+         *
+         * @param  array   $array
+         * @param  string  $key
+         * @param  mixed   $value
+         * @return array
+         */
+        public static function arraySet(&$array, $key, $value)
+        {
+            if (is_null($key)) {
+                return $array = $value;
+            }
+
+            $keys = explode('.', $key);
+
+            while (count($keys) > 1) {
+                $key = array_shift($keys);
+
+                // If the key doesn't exist at this depth, we will just create an empty array
+                // to hold the next value, allowing us to create the arrays to hold final
+                // values at the correct depth. Then we'll keep digging into the array.
+                if (!isset($array[$key]) || !is_array($array[$key])) {
+                    $array[$key] = array();
+                }
+
+                $array = &$array[$key];
+            }
+
+            $array[array_shift($keys)] = $value;
+
+            return $array;
         }
 
         //------------------------------------------------------------------------------------------------------------------------------

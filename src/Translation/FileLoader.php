@@ -125,20 +125,29 @@ class FileLoader implements Aspects\LoaderAspect
      */
     protected function loadJsonPaths($locale)
     {
-        return collect(array_merge($this->jsonPaths, array($this->path)))
-            ->reduce(function ($output, $path) use ($locale) {
-                if (file_exists($full = "{$path}/{$locale}.json")) {
-                    $decoded = json_decode(file_get_contents($full), true);
+        $jsonPaths = array_merge($this->jsonPaths, array($this->path));
 
-                    if (is_null($decoded) || json_last_error() !== JSON_ERROR_NONE) {
-                        throw new RuntimeException("Translation file [{$full}] contains an invalid JSON structure.");
-                    }
+        $reducer = function ($items, $callback, $initial = null) {
+            return array_reduce($items, $callback, $initial);
+        };
 
-                    $output = array_merge($output, $decoded);
+        $decoder = function ($output, $path) use ($locale) {
+            if (file_exists($full = "{$path}/{$locale}.json")) {
+                $decoded = json_decode(file_get_contents($full), true);
+
+                if (is_null($decoded) || json_last_error() !== JSON_ERROR_NONE) {
+                    throw new RuntimeException("Translation file [{$full}] contains an invalid JSON structure.");
                 }
 
-                return $output;
-            }, array());
+                $output = array_merge($output, $decoded);
+            }
+
+            return $output;
+        };
+
+        return $reducer($jsonPaths, function ($output, $path) use ($decoder) {
+            return $decoder($output, $path);
+        }, array());
     }
 
     /**
