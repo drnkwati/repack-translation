@@ -14,7 +14,7 @@ if (interface_exists('\Illuminate\Contracts\Translation\Loader')) {
 }
 //
 else {
-    class TranslatorAbstract extends NamespacedItemResolver
+    abstract class TranslatorAbstract extends NamespacedItemResolver
     {
         /**
          * The loader implementation.
