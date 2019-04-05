@@ -17,6 +17,13 @@ elseif (class_exists('\Illuminate\Support\ServiceProvider')) {
     }
 }
 //
+elseif (class_exists('\Repack\Support\ServiceProvider')) {
+    abstract class ServiceProviderAbstract extends \Repack\Support\ServiceProvider
+    {
+        //
+    }
+}
+//
 else {
     abstract class ServiceProviderAbstract
     {
