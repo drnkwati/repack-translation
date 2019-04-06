@@ -2,7 +2,10 @@
 
 namespace Repack\Translation;
 
-class Translator extends NamespacedItemResolver implements Aspects\TranslatorAspect
+use Repack\Aspects\LoaderAspect;
+use Repack\Aspects\TranslatorAspect;
+
+class Translator extends NamespacedItemResolver implements TranslatorAspect
 {
     /**
      * The loader implementation.
