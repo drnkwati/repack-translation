@@ -1,6 +1,6 @@
 <?php
 
-namespace Repack\Translation\Compatible;
+namespace Repack\Translation;
 
 use BadMethodCallException;
 use Closure;

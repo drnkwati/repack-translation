@@ -2,7 +2,9 @@
 
 namespace Repack\Translation;
 
-class TranslationServiceProvider extends Abstracts\ServiceProvider
+use Illuminate\Support\ServiceProvider;
+
+class TranslationServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -18,7 +20,7 @@ class TranslationServiceProvider extends Abstracts\ServiceProvider
      */
     protected function registerLoader()
     {
-        //
+        static::bindLoader($this->app);
     }
 
     /**
@@ -28,17 +30,19 @@ class TranslationServiceProvider extends Abstracts\ServiceProvider
      */
     public function register()
     {
-        $this->bindTranslator($this->app);
+        static::bindTranslator($this->app);
     }
 
     /**
-     * Get the services provided by the provider.
+     * Register the translation line loader.
      *
-     * @return array
+     * @return void
      */
-    public function provides()
+    public static function bindLoader($app)
     {
-        return array('translator', 'translation.loader');
+        $app->singleton('translation.loader', function ($app) {
+            return new FileLoader($app['path.lang']);
+        });
     }
 
     /**
@@ -49,26 +53,30 @@ class TranslationServiceProvider extends Abstracts\ServiceProvider
     public static function bindTranslator($app)
     {
         //1. Bind the translation line loader.
-
-        $app->singleton('translation.loader', function ($app) {
-            return new FileLoader($app['path.lang']);
-        });
+        static::bindLoader($app);
 
         //2. Bind the translator.
-
         $app->singleton('translator', function ($app) {
-            $loader = $app['translation.loader'];
-
             // When registering the translator component, we'll need to set the default
             // locale as well as the fallback locale. So, we'll grab the application
             // configuration so we can easily get both of these values from there.
-            $locale = $app['config']['app.locale'];
-
-            $trans = new Translator($loader, $locale);
+            $trans = new Translator(
+                $app['translation.loader'], $app['config']['app.locale']
+            );
 
             $trans->setFallback($app['config']['app.fallback_locale']);
 
             return $trans;
         });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array('translator', 'translation.loader');
     }
 }

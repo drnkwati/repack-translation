@@ -13,8 +13,13 @@
             "email": "drnkwati@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs", "url": "https://github.com/drnkwati/repack-translation"
+        }
+    ],
     "require": {
-        "php": ">=5.3.9"
+        "php": ">=5.3"
     },
     "require-dev": {
     },
