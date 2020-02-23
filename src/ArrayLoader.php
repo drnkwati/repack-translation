@@ -2,7 +2,7 @@
 
 namespace Repack\Translation;
 
-class ArrayLoader implements Aspects\LoaderAspect
+class ArrayLoader
 {
     /**
      * All of the translation messages.

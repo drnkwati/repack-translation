@@ -2,15 +2,12 @@
 
 namespace Repack\Translation;
 
-use Repack\Translation\Aspects\LoaderAspect;
-use Repack\Translation\Aspects\TranslatorAspect;
-
-class Translator extends NamespacedItemResolver implements TranslatorAspect
+class Translator extends AbstractTranslator
 {
     /**
      * The loader implementation.
      *
-     * @var LoaderAspect
+     * @var AspectLoader
      */
     protected $loader;
 
@@ -45,11 +42,11 @@ class Translator extends NamespacedItemResolver implements TranslatorAspect
     /**
      * Create a new translator instance.
      *
-     * @param  LoaderAspect  $loader
+     * @param  Loader  $loader
      * @param  string  $locale
      * @return void
      */
-    public function __construct(LoaderAspect $loader, $locale)
+    public function __construct($loader, $locale)
     {
         $this->loader = $loader;
         $this->locale = $locale;
@@ -428,7 +425,7 @@ class Translator extends NamespacedItemResolver implements TranslatorAspect
     /**
      * Get the language line loader implementation.
      *
-     * @return LoaderAspect
+     * @return AspectLoader
      */
     public function getLoader()
     {

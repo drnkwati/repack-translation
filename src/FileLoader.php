@@ -4,7 +4,7 @@ namespace Repack\Translation;
 
 use RuntimeException;
 
-class FileLoader implements Aspects\LoaderAspect
+class FileLoader
 {
     /**
      * The default path for the loader.
@@ -33,9 +33,9 @@ class FileLoader implements Aspects\LoaderAspect
      * @param  string  $path
      * @return void
      */
-    public function __construct($path)
+    public function __construct($files, $path = null)
     {
-        $this->path = $path;
+        $this->path = is_string($files) && is_dir($files) ? $files : $path;
     }
 
     /**

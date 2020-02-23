@@ -1,50 +1,38 @@
 {
     "name": "drnkwati/repack-translation",
-    "description": "Standalone port of Illuminate Translation package with extras ported for PHP 5.3.",
-    "keywords": ["Translation", "Translator", "JSON Translator"],
+    "description": "PHP 5.3 Translation package.",
     "license": "MIT",
-    "homepage": "https://github.com/drnkwati/repack-translation",
-    "support": {
-        "source": "https://github.com/drnkwati"
-    },
     "authors": [
+    {
+        "name": "Taylor Otwell",
+        "email": "taylor@laravel.com"
+    },
+    {
+        "name": "Divine Nkwati",
+        "email": "drnkwati@gmail.com"
+    }],
+    "require":
+    {
+        "php": ">=5.3",
+        "ext-json": "*"
+    },
+    "autoload":
+    {
+        "psr-4":
         {
-            "name": "Nkwati Divine",
-            "email": "drnkwati@gmail.com"
+            "Repack\\Translation\\": "src"
         }
-    ],
-    "repositories": [
+    },
+    "extra":
+    {
+        "branch-alias":
         {
-            "type": "vcs", "url": "https://github.com/drnkwati/repack-translation"
-        }
-    ],
-    "require": {
-        "php": ">=5.3"
-    },
-    "require-dev": {
-    },
-    "autoload": {
-        "files": [
-            "src/helpers.php"
-        ],
-        "psr-4": {
-            "Repack\\": "src"
+            "dev-master": "5.8-dev"
         }
     },
-    "autoload-dev": {
-        "files": [
-        ],
-        "psr-4": {
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    },
-    "config": {
+    "config":
+    {
         "sort-packages": true
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "minimum-stability": "dev"
 }
